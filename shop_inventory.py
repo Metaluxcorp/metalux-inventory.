@@ -1,28 +1,35 @@
 import streamlit as st
+import base64
 import datetime
 import smtplib
 from email.message import EmailMessage
 
-# 1. Standard config - this works for computer browser tabs
+# 1. Page Config
 st.set_page_config(
     page_title="Metalux Quick-Order",
     page_icon="metalux_square.jpg",
     layout="centered"
 )
 
-# 2. THE FORCE-FEED FIX: Pointing Safari directly to the square file
-# Note: %20 is used if there were spaces, but since we use metalux_square.jpg, it's clean.
-st.markdown(
-    f"""
-    <head>
-        <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Metaluxcorp/metalux-inventory/main/metalux_square.jpg">
-        <link rel="apple-touch-icon-precomposed" href="https://raw.githubusercontent.com/Metaluxcorp/metalux-inventory/main/metalux_square.jpg">
-        <link rel="icon" href="https://raw.githubusercontent.com/Metaluxcorp/metalux-inventory/main/metalux_square.jpg">
-    </head>
-    """,
-    unsafe_allow_html=True
-)
+# 2. THE ULTIMATE BASE64 FIX: Bakes the image into the HTML
+def get_base64_of_bin_file(bin_file):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
 
+try:
+    # This converts your file into a text string the iPhone can't miss
+    bin_str = get_base64_of_bin_file('metalux_square.jpg')
+    st.markdown(
+        f"""
+        <head>
+            <link rel="apple-touch-icon" href="data:image/jpeg;base64,{bin_str}">
+        </head>
+        """,
+        unsafe_allow_html=True
+    )
+except Exception:
+    pass # If the file isn't found, the app won't crash
 # --- EMAIL SETTINGS ---
 # Note: It is safer to use st.secrets for the password, but keeping your current setup as requested.
 SENDER_EMAIL = "Metaluxcorp@gmail.com"
@@ -109,6 +116,7 @@ if st.button("SEND ORDER TO OFFICE", type="primary"):
 
         except Exception as e:
             st.error(f"Error sending email: {e}")
+
 
 
 
