@@ -1,10 +1,14 @@
 import streamlit as st
 
-# This line adds the logo to the browser tab and the phone shortcut
+# MUST be the first Streamlit command in your script
 st.set_page_config(
-    page_title="Metalux Inventory", 
-    page_icon="Metalux-Black-BackGround.jpeg"
+    page_title="Metalux Quick-Order",
+    page_icon="Metalux-Black-BackGround.jpeg", # This pulls your uploaded image
+    layout="centered"
 )
+
+# Optional: Display the logo at the top of the app page too
+st.image("Metalux-Black-BackGround.jpeg", width=200)
 import datetime
 import smtplib
 from email.message import EmailMessage
@@ -100,3 +104,4 @@ if st.button("SEND ORDER TO OFFICE", type="primary"):
         except Exception as e:
 
             st.error(f"Error sending email: {e}")
+
