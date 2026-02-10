@@ -1,32 +1,23 @@
 import streamlit as st
-import base64
 
 # 1. Standard config
 st.set_page_config(
     page_title="Metalux Quick-Order",
-    page_icon="Metalux Black BackGround.jpg",
+    page_icon="metalux_square.jpg",
     layout="centered"
 )
 
-# 2. THE CHEAT CODE: Force iPhone Home Screen Icon
-def set_apple_touch_icon(image_path):
-    with open(image_path, "rb") as f:
-        data = base64.b64encode(f.read()).decode()
-    
-    # This injects a hidden link that iPhones look for specifically
-    st.markdown(
-        f'<link rel="apple-touch-icon" href="data:image/png;base64,{data}">',
-        unsafe_allow_url=True,
-    )
+# 2. THE FINAL FIX: Force the iPhone to see the square icon
+st.markdown(
+    f"""
+    <head>
+        <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Metaluxcorp/metalux-inventory/main/metalux_square.jpg">
+    </head>
+    """,
+    unsafe_allow_html=True
+)
 
-# Run the function using your logo file
-try:
-    set_apple_touch_icon("Metalux Black BackGround.jpg")
-except:
-    pass # Prevents crashing if the file isn't found
-
-# 3. Show logo on the page
-st.image("Metalux Black BackGround.jpg", width=250)
+st.image("metalux_square.jpg", width=250)
 import datetime
 import smtplib
 from email.message import EmailMessage
@@ -122,6 +113,7 @@ if st.button("SEND ORDER TO OFFICE", type="primary"):
         except Exception as e:
 
             st.error(f"Error sending email: {e}")
+
 
 
 
