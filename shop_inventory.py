@@ -1,13 +1,31 @@
 import streamlit as st
+import base64
 
-# MUST be the first line of code
+# 1. Standard config
 st.set_page_config(
     page_title="Metalux Quick-Order",
     page_icon="Metalux Black BackGround.jpg",
     layout="centered"
 )
 
-# This adds the logo to the top of the app page itself
+# 2. THE CHEAT CODE: Force iPhone Home Screen Icon
+def set_apple_touch_icon(image_path):
+    with open(image_path, "rb") as f:
+        data = base64.b64encode(f.read()).decode()
+    
+    # This injects a hidden link that iPhones look for specifically
+    st.markdown(
+        f'<link rel="apple-touch-icon" href="data:image/png;base64,{data}">',
+        unsafe_allow_url=True,
+    )
+
+# Run the function using your logo file
+try:
+    set_apple_touch_icon("Metalux Black BackGround.jpg")
+except:
+    pass # Prevents crashing if the file isn't found
+
+# 3. Show logo on the page
 st.image("Metalux Black BackGround.jpg", width=250)
 import datetime
 import smtplib
@@ -104,5 +122,6 @@ if st.button("SEND ORDER TO OFFICE", type="primary"):
         except Exception as e:
 
             st.error(f"Error sending email: {e}")
+
 
 
