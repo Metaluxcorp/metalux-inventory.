@@ -1,14 +1,14 @@
 import streamlit as st
 
-# MUST be the first Streamlit command in your script
+# MUST be the first line of code
 st.set_page_config(
     page_title="Metalux Quick-Order",
-    page_icon="Metalux-Black-BackGround.jpeg", # This pulls your uploaded image
+    page_icon="Metalux Black BackGround.jpg",
     layout="centered"
 )
 
-# Optional: Display the logo at the top of the app page too
-st.image("Metalux-Black-BackGround.jpeg", width=200)
+# This adds the logo to the top of the app page itself
+st.image("Metalux Black BackGround.jpg", width=250)
 import datetime
 import smtplib
 from email.message import EmailMessage
@@ -104,4 +104,5 @@ if st.button("SEND ORDER TO OFFICE", type="primary"):
         except Exception as e:
 
             st.error(f"Error sending email: {e}")
+
 
