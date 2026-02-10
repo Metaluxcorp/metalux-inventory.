@@ -1,4 +1,10 @@
-﻿import streamlit as st
+import streamlit as st
+
+# This line adds the logo to the browser tab and the phone shortcut
+st.set_page_config(
+    page_title="Metalux Inventory", 
+    page_icon="Metalux-Black-BackGround.jpeg"
+)
 import datetime
 import smtplib
 from email.message import EmailMessage
@@ -92,4 +98,5 @@ if st.button("SEND ORDER TO OFFICE", type="primary"):
             st.text_area("Sent Summary:", value=email_body, height=300)
 
         except Exception as e:
+
             st.error(f"Error sending email: {e}")
