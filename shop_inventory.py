@@ -23,9 +23,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# --- YOUR APP CONTENT (NO LOGO ON PAGE) ---
-st.title("⚒️ Metalux Quick-Order")
-
 # --- EMAIL SETTINGS ---
 # Note: It is safer to use st.secrets for the password, but keeping your current setup as requested.
 SENDER_EMAIL = "Metaluxcorp@gmail.com"
@@ -112,6 +109,7 @@ if st.button("SEND ORDER TO OFFICE", type="primary"):
 
         except Exception as e:
             st.error(f"Error sending email: {e}")
+
 
 
 
