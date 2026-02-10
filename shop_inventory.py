@@ -1,13 +1,16 @@
 import streamlit as st
+import datetime
+import smtplib
+from email.message import EmailMessage
 
-# 1. Standard config
+# 1. Standard config - Sets the tab title and browser icon
 st.set_page_config(
     page_title="Metalux Quick-Order",
     page_icon="metalux_square.jpg",
     layout="centered"
 )
 
-# 2. THE FINAL FIX: Force the iPhone to see the square icon
+# 2. THE FINAL FIX: Force the iPhone to see the square icon (Hidden from page)
 st.markdown(
     f"""
     <head>
@@ -17,15 +20,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.image("metalux_square.jpg", width=250)
-import datetime
-import smtplib
-from email.message import EmailMessage
-
-# --- CONFIG ---
-st.set_page_config(page_title="Metalux Inventory", page_icon="🔧")
-
 # --- EMAIL SETTINGS ---
+# Note: It is safer to use st.secrets for the password, but keeping your current setup as requested.
 SENDER_EMAIL = "Metaluxcorp@gmail.com"
 SENDER_PASSWORD = "jihihaxgrvtgcstz"
 RECEIVER_EMAIL = "Metaluxcorp@gmail.com"
@@ -55,7 +51,7 @@ shop_data = {
     ]
 }
 
-# Dictionary to hold orders by supplier: {"Amazon": ["- Item: 5"], "Lowes": ["- Item: 2"]}
+# Dictionary to hold orders by supplier
 order_by_supplier = {supplier: [] for supplier in shop_data.keys()}
 
 st.info("Check the box for each item that needs to be ordered.")
@@ -77,13 +73,11 @@ extra_notes = st.text_area("Additional items or notes for the office:", placehol
 
 # --- SENDING LOGIC ---
 if st.button("SEND ORDER TO OFFICE", type="primary"):
-    # Check if anything was selected across all suppliers
     has_items = any(len(items) > 0 for items in order_by_supplier.values())
 
     if not has_items and not extra_notes:
         st.warning("Please select at least one item or add a note.")
     else:
-        # Construct the email body with Supplier Headers
         email_body = f"Metalux Inventory Report - {datetime.date.today()}\n"
         email_body += "=" * 30 + "\n\n"
 
@@ -111,9 +105,7 @@ if st.button("SEND ORDER TO OFFICE", type="primary"):
             st.text_area("Sent Summary:", value=email_body, height=300)
 
         except Exception as e:
-
             st.error(f"Error sending email: {e}")
-
 
 
 
