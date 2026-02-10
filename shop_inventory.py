@@ -3,22 +3,28 @@ import datetime
 import smtplib
 from email.message import EmailMessage
 
-# 1. Standard config - Sets the tab title and browser icon
+# 1. Standard config - this works for computer browser tabs
 st.set_page_config(
     page_title="Metalux Quick-Order",
     page_icon="metalux_square.jpg",
     layout="centered"
 )
 
-# 2. THE FINAL FIX: Force the iPhone to see the square icon (Hidden from page)
+# 2. THE FORCE-FEED FIX: Pointing Safari directly to the square file
+# Note: %20 is used if there were spaces, but since we use metalux_square.jpg, it's clean.
 st.markdown(
     f"""
     <head>
         <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Metaluxcorp/metalux-inventory/main/metalux_square.jpg">
+        <link rel="apple-touch-icon-precomposed" href="https://raw.githubusercontent.com/Metaluxcorp/metalux-inventory/main/metalux_square.jpg">
+        <link rel="icon" href="https://raw.githubusercontent.com/Metaluxcorp/metalux-inventory/main/metalux_square.jpg">
     </head>
     """,
     unsafe_allow_html=True
 )
+
+# --- YOUR APP CONTENT (NO LOGO ON PAGE) ---
+st.title("⚒️ Metalux Quick-Order")
 
 # --- EMAIL SETTINGS ---
 # Note: It is safer to use st.secrets for the password, but keeping your current setup as requested.
@@ -106,6 +112,7 @@ if st.button("SEND ORDER TO OFFICE", type="primary"):
 
         except Exception as e:
             st.error(f"Error sending email: {e}")
+
 
 
 
